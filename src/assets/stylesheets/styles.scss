@@ -1,0 +1,26 @@
+@import "~bootstrap/scss/bootstrap";
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#map {
+  height: 700px;
+  width: 100%;
+}
+.list-group-item:hover{
+  background-color: #9EDBFF;
+}
+.img-streetview {
+  height: 100px;
+}
+
+.invalid-message{
+  color:red;
+  font-size: 13px;
+  text-align: center;
+  visibility: hidden;
+  display: block;
+  height: 7%;
+}
