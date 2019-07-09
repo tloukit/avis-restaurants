@@ -1,6 +1,13 @@
 import { map } from './map'
 import * as templates from '../src/templates';
+import { listRestaurants } from './map';
 import $ from 'jquery';
+
+/**
+ * Variables globales 
+ */
+let globalTempMarker = null;
+let globalTempAddress = null;
 
 /**
  *
@@ -18,13 +25,13 @@ export class Restaurant{
      * @param {*} ratings
      * @memberof Restaurant
      */
-    constructor(restaurantName,address,lat,long,ratings){
+    constructor(restaurantName,address,lat,long,ratings,marker){
         this.restaurantName = restaurantName;
         this.address = address;
         this.lat = lat;
         this.long = long;
         this.ratings = ratings;
-        this.marker = null;
+        this.marker = marker;
     }
     /**
      *
@@ -117,6 +124,7 @@ export class Restaurant{
                     stars:parseInt(rate),
                     comment:comment
                 };
+                console.log(rating);
                 this.ratings.push(rating);
                 console.log(this.ratings);
                 $('.modal-body').empty();
@@ -145,4 +153,106 @@ export class Restaurant{
         .empty()
         .append('Note du restaurant : '+this.calcAverageRateRestaurant);
     }
+}
+
+/**
+ *
+ *
+ * @export
+ */
+export function addMarker (){
+    $('#add-restaurant').off('click').on('click',function() {
+        $('.border-map').removeClass('border-secondary ');
+        $('.border-map').addClass('border-primary');
+        let mark = map.addListener('click', (e) => {
+            placeMarkerAndPanTo(e.latLng, map);
+            google.maps.event.removeListener(mark);
+            displayModalRestaurant();
+        },{once : true});
+
+        function placeMarkerAndPanTo(latLng, map) {
+            const marker = new google.maps.Marker({
+                position: latLng,
+                map: map
+            });
+            globalTempMarker = marker;
+            let geocoder = new google.maps.Geocoder();
+            geocodeLatLng(geocoder,marker.map,marker.position);
+            map.panTo(latLng);
+        }
+    })
+}
+
+/**
+ *
+ *
+ */
+function displayModalRestaurant () {
+    $('#modal-element').modal();
+    $('.modal-body,.modal-title,#add-comment').empty();
+    $('.modal-title').append(templates.headerAddRestaurant);
+    $('.modal-body').append(templates.formAddRestaurant);
+}
+
+//Fonction permettant de récupérer l'adresse du lieu qui a été cliqué sur la map
+/**
+ *
+ *
+ * @param {*} geocoder
+ * @param {*} map
+ * @param {*} position
+ */
+function geocodeLatLng(geocoder,map,position) {
+    //On récupére les valeur lat et long contenues dans position
+    const latlng = position;
+    //On utilise la méthode geocoder de l'api google map pour récupérer l'adresse postale correspondant aux coordoonées lat long
+    geocoder.geocode({'location': latlng}, function(results, status) {
+        if (status === 'OK') {
+            if (results[0]) {
+            map.setZoom(11);
+            let address = results[0].formatted_address;
+            globalTempAddress = address;
+            let splittedAdd = address.split(',');
+            addAdressToInput(splittedAdd,latlng);
+            } else {
+            window.alert('No results found');
+            }
+        } else {
+            window.alert('Geocoder failed due to: ' + status);
+        }
+    });
+}
+
+//L'adresse récupérée est affiché dans des input disabled dans la fonction suivante
+/**
+ *
+ *
+ * @param {*} splittedAdd
+ * @param {*} latLng
+ */
+function addAdressToInput (splittedAdd,latLng){
+    let cityAndPostalcode = splittedAdd[1].split(' ');
+    $("#form-address-restaurant").attr("placeholder", splittedAdd[0]);
+    $("#form-city-restaurant").attr("placeholder", cityAndPostalcode[2]);
+    $("#form-postalcode-restaurant").attr("placeholder", cityAndPostalcode[1]);
+    restaurantValidation(latLng);
+}
+
+/**
+ *
+ *
+ * @param {*} latLng
+ */
+function restaurantValidation(latLng){
+    $('#submit-restaurant').off('click').one('click',function() {
+        const latlngJson = latLng.toJSON();
+        const restaurantName = $('#form-name-restaurant').val();
+        listRestaurants.push(new Restaurant(restaurantName,globalTempAddress,latlngJson.lat,latlngJson.lng,[],globalTempMarker));
+        console.log(listRestaurants.slice(-1).pop().displayRestaurant());
+        console.log(listRestaurants);
+    })
+}
+
+function requestNearbyRestaurants(lat,lng){
+    const requestUrl = ''
 }

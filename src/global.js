@@ -1,1 +1,1 @@
-export let restaurants = ['a','l'], markers = [], map, infoWindow
+export let urlJson = 'http://steventchakpe.com/openclassrooms/restaurants.json';

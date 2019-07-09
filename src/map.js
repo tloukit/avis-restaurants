@@ -1,7 +1,7 @@
 const loadGoogleMapsApi = require('load-google-maps-api')
 import $ from 'jquery'
 import imageMarkerGeo from '../src/assets/images/geo.png'
-import { listRestaurantsJson } from './services';
+import { jsonFile } from './services';
 import * as restaurant from '../src/restaurant';
 
 
@@ -42,14 +42,15 @@ export function initGMap() {
                     icon: imageMarkerGeo
                 });
                 //On ajoute chaque restaurant récupéré via le json dans un tableau listRestaurants
-                for (let value of listRestaurantsJson){
+                for (let value of jsonFile){
                     //listRestaurants.push(value);
-                    listRestaurants.push(new restaurant.Restaurant(value.restaurantName,value.address,value.lat,value.long,value.ratings));
+                    listRestaurants.push(new restaurant.Restaurant(value.restaurantName,value.address,value.lat,value.long,value.ratings,null));
                 }
                 listRestaurants.forEach(function(restaurant) {
                     //console.log(restaurant)
                     restaurant.displayRestaurant();
                   });
+                restaurant.addMarker();
                 //TO-DO :  FONCTION GESTION A MODIFIER
             }, function () {
                 handleLocationError(true, infoWindow, map.getCenter());

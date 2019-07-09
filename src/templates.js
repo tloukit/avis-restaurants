@@ -129,3 +129,52 @@ export function formComments(){
     `
     return html;
 }
+
+
+//Template d'affichage de l'en tête de la modal d'ajout de restaurants
+/**
+ *
+ *
+ * @export
+ * @returns
+ */
+export function headerAddRestaurant(){
+    let html = `
+    <p class="font-weight-lighter">Ajoutez les données de votre restaurant</p>
+    `
+    return html;
+}
+
+
+/**
+ *
+ *
+ * @export
+ * @returns
+ */
+export function formAddRestaurant(){
+    let html = `
+    <form>
+        <div class="form-group">
+            <label for="inputEmail4">Nom</label>
+            <input type="email" class="form-control" id="form-name-restaurant" placeholder="Nom du restaurant">
+        </div>
+        <div class="form-group">
+        <label for="inputAddress">Adresse</label>
+        <input type="text" class="form-control" id="form-address-restaurant" placeholder="Adresse du restaurant" disabled >
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputCity">Ville</label>
+                <input type="text" class="form-control" id="form-city-restaurant" placeholder="Ville" disabled>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputZip">Code Postal</label>
+                <input type="text" class="form-control" id="form-postalcode-restaurant" disabled>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" id="submit-restaurant">Ajouter</button>
+    </form>
+    `
+    return html
+}
