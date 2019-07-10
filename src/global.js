@@ -1,1 +1,2 @@
-export let urlJson = 'http://steventchakpe.com/openclassrooms/restaurants.json';
+export let urlJson = require('./assets/json/restaurants.json');
+console.log(urlJson);

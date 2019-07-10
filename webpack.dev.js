@@ -56,6 +56,18 @@ module.exports = {
                 }]
             },
             {
+                type: 'javascript/auto',
+                test: /\.json$/,
+                use: [
+                    {
+                      loader: 'file-loader',
+                      options: {
+                            name: "./json/[name].[ext]"
+                      }
+                    }
+                ]
+            },
+            {
                 test: /\.html$/,
                 use: ['html-loader']
             },

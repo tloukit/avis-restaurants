@@ -1,0 +1,82 @@
+[
+    {
+       "restaurantName":"Bronco",
+       "address":"39 Rue des Petites Écuries, 75010 Paris",
+       "lat":48.8737815,
+       "long":2.3501649,
+       "ratings":[
+          {
+             "stars":4,
+             "comment":"Un excellent restaurant, j'y reviendrai ! Par contre il vaut mieux aimer la viande."
+          },
+          {
+             "stars":5,
+             "comment":"Tout simplement mon restaurant préféré !"
+          }
+       ]
+    },
+    {
+       "restaurantName":"Babalou",
+       "address":"4 Rue Lamarck, 75018 Paris",
+       "lat":48.8865035,
+       "long":2.3442197,
+       "ratings":[
+          {
+             "stars":5,
+             "comment":"Une minuscule pizzeria délicieuse cachée juste à côté du Sacré choeur !"
+          },
+          {
+             "stars":3,
+             "comment":"J'ai trouvé ça correct, sans plus"
+          }
+       ]
+    },
+    {
+       "restaurantName":"Epicure",
+       "address":"112 Rue du Faubourg Saint-Honoré, 75008 Paris",
+       "lat":48.8717179,
+       "long":2.3148011,
+       "ratings":[
+          {
+             "stars":5,
+             "comment":"Super restaurant, à couper le souffle !!! Service très agréable, cuisine originale. Le \"mets et vins\" était délicieux et parfois surprenant ! À découvrir très vite !"
+          },
+          {
+             "stars":5,
+             "comment":"Le meilleur restaurant du monde, rien que ça. Bien sûr, vous en payerez le prix, mais l’expérience est à faire au moins une fois dans sa vie. Du moins si vous souhaitez goûter au nec plus ultra de la cuisine française."
+          }
+       ]
+    },
+    {
+       "restaurantName":"Guy Savoy",
+       "address":"Monnaie de Paris, 11 Quai de Conti, 75006 Paris",
+       "lat":48.8572104,
+       "long":2.3391644,
+       "ratings":[
+          {
+             "stars":4,
+             "comment":"Nous avons passés un excellent moment dans cet établissement! Du service à la qualité des plats, une cuisine inventive et authentique.Je recommande et nous reviendrons sans aucun doute."
+          },
+          {
+             "stars":4,
+             "comment":"Cuisine de qualité avec bons produits frais. On s'est régalé!! Les prix des menus sont correct. Le patron et le personnel sont très aimable et sympathique. Le cadre est magnifique et l'ambiance au rendez-vous!!! Nous y retournerons !"
+          }
+       ]
+    },
+    {
+       "restaurantName":"Ange 20",
+       "address":"44 Rue des Tournelles, 75004 Paris",
+       "lat":48.8558432,
+       "long":2.367403,
+       "ratings":[
+          {
+             "stars":5,
+             "comment":"Parfait. Excellente cuisine traditionnelle et service très aimable. Cadre agréable. Nous reviendrons."
+          },
+          {
+             "stars":3,
+             "comment":"Restau à touristes. Vins très classiques. Personnel un peu débordé."
+          }
+       ]
+    }
+ ]
