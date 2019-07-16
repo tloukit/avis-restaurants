@@ -47,29 +47,32 @@ export function initGMap() {
                     listRestaurants.push(new restaurant.Restaurant(value.restaurantName,value.address,value.lat,value.long,value.ratings,null));
                 }
                 listRestaurants.forEach(function(restaurant) {
-                    //console.log(restaurant)
                     restaurant.displayRestaurant();
-                  });
+                });
                 restaurant.addMarker();
-                //TO-DO :  FONCTION GESTION A MODIFIER
-            }, function () {
-                handleLocationError(true, infoWindow, map.getCenter());
-            });
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
+                restaurant.isValidSelectRate();
+            },
+            function(error){
+                console.log('Géolocalisation refusée :  Position par défault')
+                 //Ajout du marqueur de la position récupérée
+                 new google.maps.Marker({
+                    position: {
+                        lat: 48.8534,
+                        lng: 2.3488
+                    },
+                    map: map,
+                    icon: imageMarkerGeo
+                });
+                //On ajoute chaque restaurant récupéré via le json dans un tableau listRestaurants
+                for (let value of jsonFile){
+                    //listRestaurants.push(value);
+                    listRestaurants.push(new restaurant.Restaurant(value.restaurantName,value.address,value.lat,value.long,value.ratings,null));
+                }
+                listRestaurants.forEach(function(restaurant) {
+                    restaurant.displayRestaurant();
+                });
+                restaurant.addMarker();
+            })
         }
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(browserHasGeolocation ?
-                'Error: The Geolocation service failed.' :
-                'Error: Your browser doesn\'t support geolocation.');
-            infoWindow.open(map);
-        }
-        //Catch si erreur au chargement de l'API
-    }).catch(function (error) {
-        $('#map').empty();
-        //Ajout d'un template string errorHandler
-        //$('#map').append(templates.errorHandler(error));
     })
 }

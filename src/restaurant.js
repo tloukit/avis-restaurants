@@ -253,6 +253,50 @@ function restaurantValidation(latLng){
     })
 }
 
-function requestNearbyRestaurants(lat,lng){
-    const requestUrl = ''
+/**
+ *
+ *
+ * @export
+ */
+export function isValidSelectRate(){
+    $('#input-select-min,#input-select-max').change(function(){
+        const minValue = $('#input-select-min').val();
+        const maxValue = $('#input-select-max').val();
+        const regexInteger = /^\d+$/;
+        //Controle si la valeur récupérée est bien un nombre entier
+        if(minValue.match(regexInteger) && maxValue.match(regexInteger)){
+            if(maxValue >= minValue){
+                $('.invalid-message').empty();
+                //Execute la fonction qui permet de filter les restaurants si maxValue est sup ou égale à min value
+                displayFilterRestaurant(listRestaurants,parseInt(minValue),parseInt(maxValue));
+            } else {
+                $('.invalid-message')
+                //Affichage d'un message d'erreur si min est supérieure à max
+                    .empty()
+                    .append('<p>Veuillez saisir une note minimale inférieur ou égale à la note max</p>')
+                    .css('visibility','visible');
+            }
+        }
+    })
+}
+
+//Filtre les restaurants en fonction de la fourchette de note demandée par l'utilisateur
+/**
+ *
+ *
+ * @export
+ * @param {*} listRestaurants
+ * @param {*} min
+ * @param {*} max
+ */
+export function displayFilterRestaurant(listRestaurants,min,max){
+    listRestaurants.forEach(restaurant => {
+        if(restaurant.calcAverageRateRestaurant >= min && restaurant.calcAverageRateRestaurant <= max){
+            $('.'+restaurant.parsedRestaurantName).attr("style", "display: flex !important");
+            restaurant.marker.setMap(map);
+        } else {
+            $('.'+restaurant.parsedRestaurantName).attr("style", "display: none !important");
+            restaurant.marker.setMap(null);
+        }
+    });
 }
