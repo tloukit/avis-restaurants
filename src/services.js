@@ -2,10 +2,14 @@
 import $ from 'jquery'
 import { initGMap } from '../src/map'
 import { errorHandler } from '../src/templates'
-import { urlJson } from './global';
 
 export let jsonFile;
+
 // Liste des restaurants JSON récupérée
+let urlJson = require('./assets/json/restaurants.json');
+
+
+
 
 // Liste des différents mirroirs contenant les fichiers json (avec les mêmes données dans chaque JSON)
 const fetchUrlJson = fetch(urlJson);
