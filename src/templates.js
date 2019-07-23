@@ -1,7 +1,5 @@
-//Template d'erreur
 /**
- *
- *
+ *Template d'affichage d'erreur
  * @export
  * @param {*} error
  * @returns
@@ -19,8 +17,7 @@ export function errorHandler(error){
 }
 
 /**
- *
- *
+ *Template d'affichage d'ajout de restaurant
  * @export
  * @param {*} restaurantCSSClass
  * @param {*} restaurantName
@@ -36,17 +33,15 @@ export function addRestaurant(restaurantCSSClass,restaurantName,restaurantAverag
     return html;
 }
 
-//Template d'affichage de l'en tête des commentaires
 /**
- *
- *
+ *Template d'affichage de l'en tête des commentaires
  * @export
- * @param {*} restaurantName
- * @param {*} restaurantAddress
- * @param {*} restaurantAverageRate
- * @param {*} restaurantCSSClass
- * @param {*} restaurantLat
- * @param {*} restaurantLong
+ * @param {*} restaurantName nom du restaurant
+ * @param {*} restaurantAddress adresse du restaurant
+ * @param {*} restaurantAverageRate note moyenne du restaurant
+ * @param {*} restaurantCSSClass classe css
+ * @param {*} restaurantLat latitude du restaurant
+ * @param {*} restaurantLong longitude du restaurant
  * @returns
  */
 export function contentHeaderComments(restaurantName,restaurantAddress,restaurantAverageRate,restaurantCSSClass,restaurantLat,restaurantLong){
@@ -61,12 +56,10 @@ export function contentHeaderComments(restaurantName,restaurantAddress,restauran
     return html;
 }
 
-//Template d'affichage des commentaires d'un restaurant dans une modal
 /**
- *
- *
+ *Template d'affichage des commentaires d'un restaurant dans une modal
  * @export
- * @param {*} ratings
+ * @param {*} ratings un objet contenant un commentaire et une note
  * @returns
  */
 export function contentBodyComments(ratings){
@@ -85,8 +78,7 @@ export function contentBodyComments(ratings){
 }
 
 /**
- *
- *
+ *Template d'affichage d'un message de validation 
  * @export
  * @returns
  */
@@ -96,10 +88,8 @@ export function contentBodyCommentsAdded(){
     return html;
 }
 
-//Template d'affichage d'un formulaire de commentaires
 /**
- *
- *
+ *Template d'affichage d'un formulaire de commentaires
  * @export
  * @returns
  */
@@ -131,10 +121,9 @@ export function formComments(){
 }
 
 
-//Template d'affichage de l'en tête de la modal d'ajout de restaurants
+
 /**
- *
- *
+ * Template d'affichage de l'en tête de la modal d'ajout de restaurants
  * @export
  * @returns
  */
@@ -147,8 +136,7 @@ export function headerAddRestaurant(){
 
 
 /**
- *
- *
+ *Template d'affichage d'ajout de restaurant
  * @export
  * @returns
  */

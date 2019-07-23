@@ -1,28 +1,22 @@
 import { map } from './map'
 import * as templates from '../src/templates';
-import { listRestaurants } from './map';
+import './restaurantEvents.js'
 import $ from 'jquery';
 
 /**
- * Variables globales 
- */
-let globalTempMarker = null;
-let globalTempAddress = null;
-
-/**
- *
- *
  * @export
  * @class Restaurant
  */
 export class Restaurant{
     /**
      *Creates an instance of Restaurant.
-     * @param {*} restaurantName
-     * @param {*} address
-     * @param {*} lat
-     * @param {*} long
-     * @param {*} ratings
+     * @param {*} restaurantName Nom du restaurant
+     * @param {*} address Adresse du restaurant
+     * @param {*} lat Latitude du restaurant
+     * @param {*} long Longitude du restaurant
+     * @param {*} ratings Chaque commentaire est stocké dans un objet et ensuite dans un array
+     * @param {*} marker Marker instancié via l'api google maps
+     *
      * @memberof Restaurant
      */
     constructor(restaurantName,address,lat,long,ratings,marker){
@@ -34,21 +28,24 @@ export class Restaurant{
         this.marker = marker;
     }
     /**
-     *
-     *
+     *Calcul la note moyenne d'un restaurant
      * @readonly
      * @memberof Restaurant
      */
     get calcAverageRateRestaurant(){
-        let total = 0;
-        for (let i = 0; i < this.ratings.length; i++){
-            total += this.ratings[i].stars;
+
+        if(this.ratings.length === 0){
+            return 0;
+        } else {
+            let total = 0;
+            for (let i = 0; i < this.ratings.length; i++){
+                total += this.ratings[i].stars;
+            }
+            return (total / this.ratings.length).toFixed(1);
         }
-        return total / this.ratings.length;
     }
     /**
-     *
-     *
+     *Modifie le nom du restaurant selon la regex
      * @readonly
      * @memberof Restaurant
      */
@@ -56,8 +53,7 @@ export class Restaurant{
         return this.restaurantName.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\//\s/]/gi, '');
     }
     /**
-     *
-     *
+     *Affiche le marker du restaurant sur la map et affiche le restaurant dans la liste
      * @memberof Restaurant
      */
     displayRestaurant(){
@@ -73,13 +69,11 @@ export class Restaurant{
         this.clickEventRestaurant();
     }
     /**
-     *
-     *
+     *Permet d'afficher une modal avec les infos du resto et les reviews
      * @memberof Restaurant
      */
     clickEventRestaurant(){
         $('.' + this.parsedRestaurantName).off('click').on('click', () => {
-            console.log('Nom du restaurant',this.restaurantName);
             map.setCenter(this.marker.getPosition());
             map.setZoom(15);
             this.displayModal()
@@ -88,8 +82,7 @@ export class Restaurant{
         })
     }
     /**
-     *
-     *
+     *Permet d'afficher la modal 
      * @memberof Restaurant
      */
     displayModal(){
@@ -99,19 +92,16 @@ export class Restaurant{
         $('#modal-element').modal();
     }
     /**
-     *
-     *
+     *Permet d'afficher les commentaires d'un restaurant
      * @memberof Restaurant
      */
     displayComments(){
         $('.modal-title').append(templates.contentHeaderComments(this.restaurantName,this.address,this.calcAverageRateRestaurant,this.parsedRestaurantName,this.lat,this.long));
         $('.modal-body').append(templates.contentBodyComments(this.ratings));
         $('#add-comment').append(templates.formComments());
-        console.log(this.ratings);
     }
     /**
-     *
-     *
+     *Controle du formulaire de validation de commentaire
      * @memberof Restaurant
      */
     commentValidation(){
@@ -124,9 +114,7 @@ export class Restaurant{
                     stars:parseInt(rate),
                     comment:comment
                 };
-                console.log(rating);
                 this.ratings.push(rating);
-                console.log(this.ratings);
                 $('.modal-body').empty();
                 $('.modal-body').append(templates.contentBodyComments(this.ratings));
                 $('.modal-body').animate({ scrollTop: $('.modal-body').height() }, 10000);
@@ -140,8 +128,7 @@ export class Restaurant{
         })
     }
     /**
-     *
-     *
+     * Met à jour l'affichage de la note moyenne du restaurant
      * @memberof Restaurant
      */
     updateStarsRestaurant() {
@@ -153,150 +140,4 @@ export class Restaurant{
         .empty()
         .append('Note du restaurant : '+this.calcAverageRateRestaurant);
     }
-}
-
-/**
- *
- *
- * @export
- */
-export function addMarker (){
-    $('#add-restaurant').off('click').on('click',function() {
-        $('.border-map').removeClass('border-secondary ');
-        $('.border-map').addClass('border-primary');
-        let mark = map.addListener('click', (e) => {
-            placeMarkerAndPanTo(e.latLng, map);
-            google.maps.event.removeListener(mark);
-            displayModalRestaurant();
-        },{once : true});
-
-        function placeMarkerAndPanTo(latLng, map) {
-            const marker = new google.maps.Marker({
-                position: latLng,
-                map: map
-            });
-            globalTempMarker = marker;
-            let geocoder = new google.maps.Geocoder();
-            geocodeLatLng(geocoder,marker.map,marker.position);
-            map.panTo(latLng);
-        }
-    })
-}
-
-/**
- *
- *
- */
-function displayModalRestaurant () {
-    $('#modal-element').modal();
-    $('.modal-body,.modal-title,#add-comment').empty();
-    $('.modal-title').append(templates.headerAddRestaurant);
-    $('.modal-body').append(templates.formAddRestaurant);
-}
-
-//Fonction permettant de récupérer l'adresse du lieu qui a été cliqué sur la map
-/**
- *
- *
- * @param {*} geocoder
- * @param {*} map
- * @param {*} position
- */
-function geocodeLatLng(geocoder,map,position) {
-    //On récupére les valeur lat et long contenues dans position
-    const latlng = position;
-    //On utilise la méthode geocoder de l'api google map pour récupérer l'adresse postale correspondant aux coordoonées lat long
-    geocoder.geocode({'location': latlng}, function(results, status) {
-        if (status === 'OK') {
-            if (results[0]) {
-            map.setZoom(11);
-            let address = results[0].formatted_address;
-            globalTempAddress = address;
-            let splittedAdd = address.split(',');
-            addAdressToInput(splittedAdd,latlng);
-            } else {
-            window.alert('No results found');
-            }
-        } else {
-            window.alert('Geocoder failed due to: ' + status);
-        }
-    });
-}
-
-//L'adresse récupérée est affiché dans des input disabled dans la fonction suivante
-/**
- *
- *
- * @param {*} splittedAdd
- * @param {*} latLng
- */
-function addAdressToInput (splittedAdd,latLng){
-    let cityAndPostalcode = splittedAdd[1].split(' ');
-    $("#form-address-restaurant").attr("placeholder", splittedAdd[0]);
-    $("#form-city-restaurant").attr("placeholder", cityAndPostalcode[2]);
-    $("#form-postalcode-restaurant").attr("placeholder", cityAndPostalcode[1]);
-    restaurantValidation(latLng);
-}
-
-/**
- *
- *
- * @param {*} latLng
- */
-function restaurantValidation(latLng){
-    $('#submit-restaurant').off('click').one('click',function() {
-        const latlngJson = latLng.toJSON();
-        const restaurantName = $('#form-name-restaurant').val();
-        listRestaurants.push(new Restaurant(restaurantName,globalTempAddress,latlngJson.lat,latlngJson.lng,[],globalTempMarker));
-        console.log(listRestaurants.slice(-1).pop().displayRestaurant());
-        console.log(listRestaurants);
-    })
-}
-
-/**
- *
- *
- * @export
- */
-export function isValidSelectRate(){
-    $('#input-select-min,#input-select-max').change(function(){
-        const minValue = $('#input-select-min').val();
-        const maxValue = $('#input-select-max').val();
-        const regexInteger = /^\d+$/;
-        //Controle si la valeur récupérée est bien un nombre entier
-        if(minValue.match(regexInteger) && maxValue.match(regexInteger)){
-            if(maxValue >= minValue){
-                $('.invalid-message').empty();
-                //Execute la fonction qui permet de filter les restaurants si maxValue est sup ou égale à min value
-                displayFilterRestaurant(listRestaurants,parseInt(minValue),parseInt(maxValue));
-            } else {
-                $('.invalid-message')
-                //Affichage d'un message d'erreur si min est supérieure à max
-                    .empty()
-                    .append('<p>Veuillez saisir une note minimale inférieur ou égale à la note max</p>')
-                    .css('visibility','visible');
-            }
-        }
-    })
-}
-
-//Filtre les restaurants en fonction de la fourchette de note demandée par l'utilisateur
-/**
- *
- *
- * @export
- * @param {*} listRestaurants
- * @param {*} min
- * @param {*} max
- */
-export function displayFilterRestaurant(listRestaurants,min,max){
-    listRestaurants.forEach(restaurant => {
-        if(restaurant.calcAverageRateRestaurant >= min && restaurant.calcAverageRateRestaurant <= max){
-            $('.'+restaurant.parsedRestaurantName).attr("style", "display: flex !important");
-            restaurant.marker.setMap(map);
-        } else {
-            $('.'+restaurant.parsedRestaurantName).attr("style", "display: none !important");
-            restaurant.marker.setMap(null);
-        }
-    });
 }
