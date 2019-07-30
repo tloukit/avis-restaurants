@@ -96,8 +96,13 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
-        new Dotenv()
-
+        new Dotenv(),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery'",
+            "window.$": "jquery"
+        })
     ],
     mode: devMode ? 'development' : 'production'
 };

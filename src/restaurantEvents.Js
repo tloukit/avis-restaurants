@@ -15,12 +15,12 @@ let globalTempAddress = null;
  * Ajout un marker sur la carte et ouvre une modal pour ajout de restaurant
  * @export
  */
-export function addMarker (){
+export function addMarkerNewRestaurant (){
     $('#add-restaurant').off('click').on('click',function() {
         const mark = map.addListener('click', (e) => {
             placeMarkerAndPanTo(e.latLng, map);
             google.maps.event.removeListener(mark);
-            displayModalRestaurant();
+            displayModalRestaurant(e.latLng);
         },{once : true});
 
         function placeMarkerAndPanTo(latLng, map) {
@@ -39,10 +39,10 @@ export function addMarker (){
 /**
  *Affichage de la modal d'ajout de restaurant
  */
-function displayModalRestaurant () {
+function displayModalRestaurant (position) {
     $('#modal-element').modal();
     $('.modal-body,.modal-title,#add-comment').empty();
-    $('.modal-title').append(templates.headerAddRestaurant);
+    $('.modal-title').append(templates.headerAddRestaurant(position));
     $('.modal-body').append(templates.formAddRestaurant);
 }
 
@@ -126,26 +126,19 @@ function restaurantValidation(latLng){
  *Controle la validité du filtre de selection des notes
  * @export
  */
-export function isValidSelectRate(){
-    $('#input-select-min,#input-select-max').change(function(){
-        const minValue = $('#input-select-min').val();
-        const maxValue = $('#input-select-max').val();
-        const regexInteger = /^\d+$/;
-        //Controle si la valeur récupérée est bien un nombre entier
-        if(minValue.match(regexInteger) && maxValue.match(regexInteger)){
-            if(maxValue >= minValue){
-                $('.invalid-message').empty();
-                //Execute la fonction qui permet de filter les restaurants si maxValue est sup ou égale à min value
-                displayFilterRestaurant(listRestaurants,parseInt(minValue),parseInt(maxValue));
-            } else {
-                $('.invalid-message')
-                //Affichage d'un message d'erreur si min est supérieure à max
-                    .empty()
-                    .append('<p>Veuillez saisir une note minimale inférieur ou égale à la note max</p>')
-                    .css('visibility','visible');
-            }
+export function checkFilterRates(){
+    $( "#slider-range" ).slider({
+        range: true,
+        min: 0,
+        max: 5,
+        values: [ 0, 5 ],
+        slide: function( event, ui ) {
+        $( "#rates" ).val( "Mini : " + ui.values[ 0 ] + " Max : " + ui.values[ 1 ] );
+        },
+        change: function( event, ui ) {
+            displayFilterRestaurant(listRestaurants,ui.values[ 0 ],ui.values[ 1 ]);
         }
-    })
+    });
 }
 
 /**

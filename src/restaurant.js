@@ -1,6 +1,7 @@
 import { map } from './map'
 import * as templates from '../src/templates';
-import './restaurantEvents.js'
+import './restaurantEvents.js';
+import imageMarkerRestaurant from '../src/assets/images/marker_location_restaurant.png';
 import $ from 'jquery';
 
 /**
@@ -57,13 +58,16 @@ export class Restaurant{
      * @memberof Restaurant
      */
     displayRestaurant(){
+        console.log('Commentaires',this.ratings);
+        console.log('Note moy du resto',this.calcAverageRateRestaurant);
         $('#list-restaurants').append(templates.addRestaurant(this.parsedRestaurantName,this.restaurantName,this.calcAverageRateRestaurant));
         const marker = new google.maps.Marker({
             position: {
                 lat: this.lat,
                 lng: this.long
             },
-            map: map
+            map: map,
+            icon:imageMarkerRestaurant
         });
         this.marker = marker;
         this.clickEventRestaurant();
@@ -82,7 +86,7 @@ export class Restaurant{
         })
     }
     /**
-     *Permet d'afficher la modal 
+     *Permet d'afficher la modal
      * @memberof Restaurant
      */
     displayModal(){

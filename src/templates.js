@@ -78,7 +78,7 @@ export function contentBodyComments(ratings){
 }
 
 /**
- *Template d'affichage d'un message de validation 
+ *Template d'affichage d'un message de validation
  * @export
  * @returns
  */
@@ -127,9 +127,12 @@ export function formComments(){
  * @export
  * @returns
  */
-export function headerAddRestaurant(){
+export function headerAddRestaurant(position){
     let html = `
-    <p class="font-weight-lighter">Ajoutez les données de votre restaurant</p>
+    <p class="font-weight-lighter">
+    <img class="img-streetview img-thumbnail" src="https://maps.googleapis.com/maps/api/streetview?location=${position.lat()},${position.lng()}&size=456x456&key=${process.env.GOOGLEMAPS_KEY}"/>
+    Ajoutez le nom de votre restaurant
+    </p>
     `
     return html;
 }
