@@ -84,10 +84,12 @@ const listRestaurantsFromJson = () => {
  */
 const idleEvents = () => {
     google.maps.event.addListener(map, 'zoom_changed', () => {
-        restaurantjs.displayVisibleRestaurantsOnMap();
+        //restaurantjs.displayVisibleRestaurantsOnMap();
+        restaurantjs.displayFilterRestaurant(listRestaurants,$( "#slider-range" ).slider( "values", 0 ),$( "#slider-range" ).slider( "values", 1 ));
      });
      google.maps.event.addListener(map, 'dragend', () => {
-         restaurantjs.displayVisibleRestaurantsOnMap();
+        //restaurantjs.displayVisibleRestaurantsOnMap();
+        restaurantjs.displayFilterRestaurant(listRestaurants,$( "#slider-range" ).slider( "values", 0 ),$( "#slider-range" ).slider( "values", 1 ));
      });
     restaurantjs.addMarkerNewRestaurant();
     restaurantjs.checkFilterRates();

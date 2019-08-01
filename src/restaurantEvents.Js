@@ -11,6 +11,8 @@ import * as restaurant from '../src/restaurant';
 let globalTempMarker = null;
 let globalTempAddress = null;
 
+export let globalCommentRate = null;
+
 /**
  * Ajout un marker sur la carte et ouvre une modal pour ajout de restaurant
  * @export
@@ -28,6 +30,7 @@ export function addMarkerNewRestaurant (){
                 position: latLng,
                 map: map
             });
+            marker.setVisible(false);
             globalTempMarker = marker;
             let geocoder = new google.maps.Geocoder();
             geocodeLatLng(geocoder,marker.map,marker.position);
@@ -104,9 +107,6 @@ function restaurantValidation(latLng){
         if (restaurantName.length > 2 && restaurantName.match(regexAlphaNumChar)){
             const latlngJson = latLng.toJSON();
             listRestaurants.push(new restaurant.Restaurant(restaurantName,globalTempAddress,latlngJson.lat,latlngJson.lng,[],globalTempMarker));
-           // setTimeout(() => {
-            //    console.log(globalTempMarker.setMap(null));
-            //}, 3000);
             const restaurantObject = listRestaurants.slice(-1).pop();
             listRestaurants.slice(-1).pop().displayRestaurant();
             restaurantObject.marker.addListener('click', () => {
@@ -139,6 +139,8 @@ export function checkFilterRates(){
             displayFilterRestaurant(listRestaurants,ui.values[ 0 ],ui.values[ 1 ]);
         }
     });
+    $( "#rates" ).val( "Mini : " + $( "#slider-range" ).slider( "values", 0 ) +
+        " Max : " + $( "#slider-range" ).slider( "values", 1 ) );
 }
 
 /**
@@ -149,8 +151,13 @@ export function checkFilterRates(){
  * @param {*} max
  */
 export function displayFilterRestaurant(listRestaurants,min,max){
+    const bds = map.getBounds();
+    const South_Lat = bds.getSouthWest().lat();
+    const South_Lng = bds.getSouthWest().lng();
+    const North_Lat = bds.getNorthEast().lat();
+    const North_Lng = bds.getNorthEast().lng();
     listRestaurants.forEach(restaurant => {
-        if(restaurant.calcAverageRateRestaurant >= min && restaurant.calcAverageRateRestaurant <= max){
+        if(restaurant.calcAverageRateRestaurant >= min && restaurant.calcAverageRateRestaurant <= max && restaurant.lat > South_Lat && restaurant.lat < North_Lat && restaurant.long > South_Lng && restaurant.long < North_Lng){
             $('.'+restaurant.parsedRestaurantName).attr("style", "display: flex !important");
             restaurant.marker.setMap(map);
         } else {
@@ -161,26 +168,21 @@ export function displayFilterRestaurant(listRestaurants,min,max){
 }
 
 /**
- *Affiche les restaurants visible sur la map dans la liste
+ *
+ *
  * @export
  */
-export function displayVisibleRestaurantsOnMap(){
-    const bds = map.getBounds();
-    const South_Lat = bds.getSouthWest().lat();
-    const South_Lng = bds.getSouthWest().lng();
-    const North_Lat = bds.getNorthEast().lat();
-    const North_Lng = bds.getNorthEast().lng();
-    listRestaurants.forEach(restaurant => {
-        if(restaurant.lat > South_Lat && restaurant.lat < North_Lat && restaurant.long > South_Lng && restaurant.long < North_Lng){
-            $('.'+restaurant.parsedRestaurantName).attr("style", "display: flex !important");
-            $('#input-select-min').prop('selectedIndex',0);
-            $('#input-select-max').prop('selectedIndex',0);
-            restaurant.marker.setMap(map);
-        } else {
-            $('.'+restaurant.parsedRestaurantName).attr("style", "display: none !important");
-            $('#input-select-min').prop('selectedIndex',0);
-            $('#input-select-max').prop('selectedIndex',0);
-            restaurant.marker.setMap(null);
-        }
-    });
+export function ratingStars(){
+    const starsClass = ['s5','s4','s3','s2','s1'];
+    let rate;
+    for (let i = 0 ; i < starsClass.length; i++){
+        $('.'+starsClass[i]).click(function(){
+            $('.stars>i.stars-full').removeClass('stars-full');
+            for (let j = 0; j <= i ; j++){
+                $('.'+starsClass[j]).addClass('stars-full');
+                rate = i+1;
+            }
+            globalCommentRate = rate;
+        });
+    }
 }

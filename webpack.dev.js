@@ -16,7 +16,7 @@ module.exports = {
         contentBase: path.resolve(__dirname, './public'),
         inline: true,
         open: true,
-        hot: true
+        hot: true,
     },
     stats: {
         entrypoints: false,

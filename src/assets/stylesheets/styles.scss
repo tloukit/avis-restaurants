@@ -1,4 +1,5 @@
 @import "~bootstrap/scss/bootstrap";
+//@import "https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css";
 
 html, body {
   height: 100%;
@@ -9,14 +10,59 @@ html, body {
 #map {
   height: 700px;
   width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 #list-restaurants{
   width: 95%;
+  position: absolute;
 }
 #rates{
   border:0;
   color:#000000;
+}
+#add-comment{
+  border-top: 1px solid #dee2e6;
+  padding-top: 30px;
+}
+
+.border-map{
+  padding: 0;
+}
+.stars{
+  position: relative;
+  top: 10%;
+  left: 16.5%;
+  transform: translate(-50%,-50%);
+  direction: rtl;
+}
+.stars i{
+  font-size: 30px;
+  transition: 0.3s all;
+}
+.stars i:hover{
+  color:#f1c40f;
+}
+.s1:hover ~ i{
+  color:#f1c40f;
+}
+.s2:hover ~ i{
+  color:#f1c40f;
+}
+.s3:hover ~ i{
+  color:#f1c40f;
+}
+.s4:hover ~ i{
+  color:#f1c40f;
+}
+.s5:hover ~ i{
+  color:#f1c40f;
+}
+
+.stars-full{
+  font-size: 30px;
+  color:#f1c40f;
 }
 .list-group-item:hover{
   background-color: #9EDBFF;
@@ -33,3 +79,33 @@ html, body {
   display: block;
   height: 7%;
 }
+@media (max-width: 767px) {
+  #list-restaurants{
+    position: unset;
+    width: 100%;
+  }
+  .h-mobile{
+    height: 100px !important;
+  }
+  #add-comment{
+    padding-top: 0;
+  }
+  .stars{
+    padding-top: 18%;
+    margin-bottom: -20%;
+    left: 20.5%;
+  }
+ }
+
+ @media (max-width: 320px) {
+  p {
+    margin-bottom: 0rem!important;
+  }
+  .modal-header{
+    padding:0;
+  }
+  .modal-body{
+    padding: 0;
+  }
+ }
+

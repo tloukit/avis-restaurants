@@ -83,8 +83,7 @@ export function contentBodyComments(ratings){
  * @returns
  */
 export function contentBodyCommentsAdded(){
-    let i = 0;
-    let html = '<p> Votre commentaire a été ajouté </p>';
+    let html = '<p class="mb-3 col-12"> Votre commentaire a été ajouté </p>';
     return html;
 }
 
@@ -96,24 +95,20 @@ export function contentBodyCommentsAdded(){
 export function formComments(){
     let html = `
         <div class="input-group mb-3 col-12">
-        <div class="input-group-prepend">
-            <label class="input-group-text" for="input-select-rate">Note</label>
+        <div class="stars">
+            <i class="icon ion-md-star s1"></i>
+            <i class="icon ion-md-star s2"></i>
+            <i class="icon ion-md-star s3"></i>
+            <i class="icon ion-md-star s4"></i>
+            <i class="icon ion-md-star s5"></i>
         </div>
-        <select class="custom-select" id="input-select-rate">
-            <option selected="selected">Séléctionnez une note</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
         </div>
         <div class="form-group col-12">
                 <label for="textarea-comm">Votre commentaire :</label>
                 <textarea class="form-control" id="textarea-comm" rows="3"></textarea>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
             <button type="button" id="submit-comment" class="btn btn-primary">Publier</button>
         </div>
     `
@@ -165,6 +160,7 @@ export function formAddRestaurant(){
             </div>
         </div>
         <button type="button" class="btn btn-primary" id="submit-restaurant">Ajouter</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
     </form>
     `
     return html

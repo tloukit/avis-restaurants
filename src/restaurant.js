@@ -1,7 +1,9 @@
 import { map } from './map'
 import * as templates from '../src/templates';
+import * as restaurantjs from '../src/restaurantEvents';
 import './restaurantEvents.js';
 import imageMarkerRestaurant from '../src/assets/images/marker_location_restaurant.png';
+import { globalCommentRate } from '../src/restaurantEvents';
 import $ from 'jquery';
 
 /**
@@ -58,8 +60,6 @@ export class Restaurant{
      * @memberof Restaurant
      */
     displayRestaurant(){
-        console.log('Commentaires',this.ratings);
-        console.log('Note moy du resto',this.calcAverageRateRestaurant);
         $('#list-restaurants').append(templates.addRestaurant(this.parsedRestaurantName,this.restaurantName,this.calcAverageRateRestaurant));
         const marker = new google.maps.Marker({
             position: {
@@ -80,8 +80,8 @@ export class Restaurant{
         $('.' + this.parsedRestaurantName).off('click').on('click', () => {
             map.setCenter(this.marker.getPosition());
             map.setZoom(15);
-            this.displayModal()
-            this.displayComments()
+            this.displayModal();
+            this.displayComments();
             this.commentValidation();
         })
     }
@@ -103,6 +103,7 @@ export class Restaurant{
         $('.modal-title').append(templates.contentHeaderComments(this.restaurantName,this.address,this.calcAverageRateRestaurant,this.parsedRestaurantName,this.lat,this.long));
         $('.modal-body').append(templates.contentBodyComments(this.ratings));
         $('#add-comment').append(templates.formComments());
+        restaurantjs.ratingStars();
     }
     /**
      *Controle du formulaire de validation de commentaire
@@ -111,8 +112,9 @@ export class Restaurant{
     commentValidation(){
         $('#submit-comment').off('click').one('click',() => {
             const
-            rate = $('#input-select-rate').val(),
+            rate = globalCommentRate,
             comment = ($('#textarea-comm').val());
+            console.log(rate);
             if(rate.toString().length === 1 && comment.length >= 3){
                 const rating = {
                     stars:parseInt(rate),
@@ -121,7 +123,7 @@ export class Restaurant{
                 this.ratings.push(rating);
                 $('.modal-body').empty();
                 $('.modal-body').append(templates.contentBodyComments(this.ratings));
-                $('.modal-body').animate({ scrollTop: $('.modal-body').height() }, 10000);
+                //$('.modal-body').animate({ scrollTop: $('.modal-body').height() }, 10000);
                 $('#add-comment').empty();
                 $('#add-comment').append(templates.contentBodyCommentsAdded());
                 this.updateStarsRestaurant();
