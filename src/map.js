@@ -7,10 +7,10 @@ import imageMarkerGeo from '../src/assets/images/geo.png';
 import { jsonFile } from './services';
 
 export let listRestaurants = [], map;
-//On utilise un module webpack pour charger l'api google map
+
+
 /**
- *
- *
+ *Utilistion d'un module webpack pour charger l'api google map
  * @export
  */
 export function initGMap() {
@@ -21,18 +21,18 @@ export function initGMap() {
 }
 
 /**
- *
- *
+ *Fonction qui permet de récupéré la position de l'utilisateur
  */
 const googleMaps = () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(positionSuccess,positionError);
+    } else {
+        $('#map').append(templates.errorHandler('La géolocalisation n\'est pas supportée par votre navigateur.<br>Veuillez changer de navigateur pour pouvoir utiliser ce service.'));
     }
 }
 
 /**
- *
- *
+ *Lancement de la google map avec la liste de restaurants json et la librarie places
  * @param {*} position
  */
 const positionSuccess = (position) => {
@@ -56,15 +56,13 @@ const positionSuccess = (position) => {
     nearbySearchPlaces();
 }
 /**
- *
- *
+ *Message d'erreur en cas de géolocalisation désactivée
  */
 const positionError = () => {
     $('#map').append(templates.errorHandler('La géolocalisation de votre navigateur est desactivée.<br>Veuillez l\'activer pour pouvoir utiliser ce service.'));
 }
 /**
- *
- *
+ *Création de l'affichage de chaque restaurant du fichier JSON
  */
 const listRestaurantsFromJson = () => {
     jsonFile.forEach(element => {
@@ -79,8 +77,7 @@ const listRestaurantsFromJson = () => {
     });
 }
 /**
- *
- *
+ *Ecouteurs d'évenements
  */
 const idleEvents = () => {
     google.maps.event.addListener(map, 'zoom_changed', () => {
@@ -94,14 +91,9 @@ const idleEvents = () => {
     restaurantjs.addMarkerNewRestaurant();
     restaurantjs.checkFilterRates();
 }
+
 /**
- *
- *
- * @param {*} resto
- */
-/**
- *
- *
+ *Création de l'affichage de chaque restaurants contenu dans l'array listRestaurants
  * @param {*} resto
  */
 const addRestaurant = (resto) => {
@@ -114,8 +106,7 @@ const addRestaurant = (resto) => {
     });
 }
 /**
- *
- *
+ *Recherche de restaurants et de reviews correspondant à la requête
  */
 const nearbySearchPlaces = () => {
     const request = {
@@ -160,17 +151,3 @@ const nearbySearchPlaces = () => {
         }
     });
 }
-
-$( function() {
-    $( "#slider-range" ).slider({
-      range: true,
-      min: 0,
-      max: 5,
-      values: [ 0, 5 ],
-      slide: function( event, ui ) {
-        $( "#amount" ).val( "Mini : " + ui.values[ 0 ] + " Max : " + ui.values[ 1 ] );
-      }
-    });
-    $( "#amount" ).val( "Mini : " + $( "#slider-range" ).slider( "values", 0 ) +
-      " Max : " + $( "#slider-range" ).slider( "values", 1 ) );
-  } );

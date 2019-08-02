@@ -10,7 +10,9 @@ import * as restaurant from '../src/restaurant';
  */
 let globalTempMarker = null;
 let globalTempAddress = null;
-
+/**
+ * Variable global récupérant la note
+ */
 export let globalCommentRate = null;
 
 /**
@@ -18,14 +20,14 @@ export let globalCommentRate = null;
  * @export
  */
 export function addMarkerNewRestaurant (){
-    $('#add-restaurant').off('click').on('click',function() {
+    $('#add-restaurant').off('click').on('click',()=> {
         const mark = map.addListener('click', (e) => {
             placeMarkerAndPanTo(e.latLng, map);
             google.maps.event.removeListener(mark);
             displayModalRestaurant(e.latLng);
         },{once : true});
 
-        function placeMarkerAndPanTo(latLng, map) {
+        const placeMarkerAndPanTo = (latLng, map) => {
             const marker = new google.maps.Marker({
                 position: latLng,
                 map: map
@@ -83,16 +85,11 @@ function geocodeLatLng(geocoder,map,position) {
  */
 function addAdressToInput (splittedAdd,latLng){
     let postalcodeAndCity = splittedAdd[1].split(' ');
-    console.log(postalcodeAndCity);
     let [emptyIndex,postalcode, ...city] = postalcodeAndCity;
     city = city.join(' ');
-    console.log('postalcode',postalcode);
-    console.log('city',city);
-
     $("#form-address-restaurant").attr("placeholder", splittedAdd[0]);
     $("#form-city-restaurant").attr("placeholder", city);
     $("#form-postalcode-restaurant").attr("placeholder", postalcode);
-    console.log(splittedAdd);
     restaurantValidation(latLng);
 }
 
@@ -104,6 +101,7 @@ function restaurantValidation(latLng){
     $('#submit-restaurant').off('click').on('click',function() {
         const restaurantName = $('#form-name-restaurant').val();
         const regexAlphaNumChar = /^[a-zA-Z0-9]*$/;
+        $('.invalid-message').removeClass('visibility-hide');
         if (restaurantName.length > 2 && restaurantName.match(regexAlphaNumChar)){
             const latlngJson = latLng.toJSON();
             listRestaurants.push(new restaurant.Restaurant(restaurantName,globalTempAddress,latlngJson.lat,latlngJson.lng,[],globalTempMarker));
@@ -117,7 +115,8 @@ function restaurantValidation(latLng){
             $('#modal-element').modal('hide');
 
         } else {
-            console.log('Entrées non valides');
+            $('.invalid-message').html('<p>Veuillez remplir le champ uniquement avec des chiffres et/ou des lettres</p>')
+            $('.invalid-message').addClass('visibility-show');
         }
     })
 }
@@ -132,10 +131,10 @@ export function checkFilterRates(){
         min: 0,
         max: 5,
         values: [ 0, 5 ],
-        slide: function( event, ui ) {
+        slide: ( event, ui ) => {
         $( "#rates" ).val( "Mini : " + ui.values[ 0 ] + " Max : " + ui.values[ 1 ] );
         },
-        change: function( event, ui ) {
+        change: ( event, ui ) => {
             displayFilterRestaurant(listRestaurants,ui.values[ 0 ],ui.values[ 1 ]);
         }
     });
@@ -176,7 +175,7 @@ export function ratingStars(){
     const starsClass = ['s5','s4','s3','s2','s1'];
     let rate;
     for (let i = 0 ; i < starsClass.length; i++){
-        $('.'+starsClass[i]).click(function(){
+        $('.'+starsClass[i]).click(() => {
             $('.stars>i.stars-full').removeClass('stars-full');
             for (let j = 0; j <= i ; j++){
                 $('.'+starsClass[j]).addClass('stars-full');

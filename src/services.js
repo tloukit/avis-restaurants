@@ -8,18 +8,15 @@ export let jsonFile;
 // Liste des restaurants JSON récupérée
 let urlJson = require('./assets/json/restaurants.json');
 
-
-
-
 // Liste des différents mirroirs contenant les fichiers json (avec les mêmes données dans chaque JSON)
 const fetchUrlJson = fetch(urlJson);
 
 // Promise qui retourne un reject à la fin du délai
-const timeout = new Promise((resolve, reject) => {
+const timeout = new Promise((reject) => {
     return setTimeout(() => reject(new Error('request timeout')), 10000);
 });
 
-// Promise race contenant les 4 promise dans un tableau la première reqûete qui répond passe dans le pipe 'then'
+// Promise race contenant les 2 promise dans un tableau la première reqûete qui répond passe dans le pipe 'then'
 export const promiseRace = Promise.race([fetchUrlJson, timeout])
     .then((response) => {
         if(response.ok){
@@ -29,7 +26,6 @@ export const promiseRace = Promise.race([fetchUrlJson, timeout])
         }
     })
    .then((value) => {
-       console.log(value);
         jsonFile = value;
     });
 

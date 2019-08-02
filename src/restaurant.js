@@ -110,12 +110,12 @@ export class Restaurant{
      * @memberof Restaurant
      */
     commentValidation(){
-        $('#submit-comment').off('click').one('click',() => {
+        $('#submit-comment').off('click').on('click',() => {
             const
             rate = globalCommentRate,
             comment = ($('#textarea-comm').val());
-            console.log(rate);
-            if(rate.toString().length === 1 && comment.length >= 3){
+            $('.invalid-message').removeClass('visibility-hide');
+            if(rate !== null && comment.length >= 3){
                 const rating = {
                     stars:parseInt(rate),
                     comment:comment
@@ -123,13 +123,12 @@ export class Restaurant{
                 this.ratings.push(rating);
                 $('.modal-body').empty();
                 $('.modal-body').append(templates.contentBodyComments(this.ratings));
-                //$('.modal-body').animate({ scrollTop: $('.modal-body').height() }, 10000);
                 $('#add-comment').empty();
                 $('#add-comment').append(templates.contentBodyCommentsAdded());
                 this.updateStarsRestaurant();
             } else {
-                //CAS D'ERREUR A AJOUTER
-                console.log('Entrées non valides !');
+                $('.invalid-message').html('<p>Veuillez ajouter une note et un commentaire avec au moins 3 caractères</p>');
+                $('.invalid-message').addClass('visibility-show');
             }
         })
     }
@@ -141,7 +140,6 @@ export class Restaurant{
         $('.'+this.parsedRestaurantName+' > span.badge')
         .empty()
         .append(this.calcAverageRateRestaurant);
-
         $('.'+this.parsedRestaurantName+''+'-title > span.badge')
         .empty()
         .append('Note du restaurant : '+this.calcAverageRateRestaurant);

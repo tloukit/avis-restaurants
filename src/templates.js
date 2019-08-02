@@ -19,9 +19,9 @@ export function errorHandler(error){
 /**
  *Template d'affichage d'ajout de restaurant
  * @export
- * @param {*} restaurantCSSClass
- * @param {*} restaurantName
- * @param {*} restaurantAverageRate
+ * @param {*} restaurantCSSClass classe css
+ * @param {*} restaurantName nom du restaurant
+ * @param {*} restaurantAverageRate note moyenne du restaurant
  * @returns
  */
 export function addRestaurant(restaurantCSSClass,restaurantName,restaurantAverageRate){
@@ -83,7 +83,7 @@ export function contentBodyComments(ratings){
  * @returns
  */
 export function contentBodyCommentsAdded(){
-    let html = '<p class="mb-3 col-12"> Votre commentaire a été ajouté </p>';
+    let html = '<p class="mb-3 col-12"> Votre commentaire a bien été ajouté </p>';
     return html;
 }
 
@@ -106,6 +106,7 @@ export function formComments(){
         <div class="form-group col-12">
                 <label for="textarea-comm">Votre commentaire :</label>
                 <textarea class="form-control" id="textarea-comm" rows="3"></textarea>
+                <div class="invalid-message visibility-hide"></div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -144,6 +145,7 @@ export function formAddRestaurant(){
         <div class="form-group">
             <label for="inputEmail4">Nom</label>
             <input type="email" class="form-control" id="form-name-restaurant" placeholder="Nom du restaurant">
+            <div class="invalid-message visibility-hide"></div>
         </div>
         <div class="form-group">
         <label for="inputAddress">Adresse</label>

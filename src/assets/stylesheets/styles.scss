@@ -33,7 +33,9 @@ html, body {
 .stars{
   position: relative;
   top: 10%;
-  left: 16.5%;
+  left: 14.5%;
+  padding-top: 18%;
+  margin-bottom: -48%;
   transform: translate(-50%,-50%);
   direction: rtl;
 }
@@ -75,9 +77,14 @@ html, body {
   color:red;
   font-size: 13px;
   text-align: center;
+  height: 15px;
+}
+
+.visibility-hide{
   visibility: hidden;
-  display: block;
-  height: 7%;
+}
+.visibility-show{
+  visibility: visible;
 }
 @media (max-width: 767px) {
   #list-restaurants{
@@ -100,6 +107,11 @@ html, body {
  @media (max-width: 320px) {
   p {
     margin-bottom: 0rem!important;
+  }
+  .stars{
+    padding-top: 15%;
+    margin-bottom: -23%;
+    left: 24.5%;
   }
   .modal-header{
     padding:0;
