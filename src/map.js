@@ -75,19 +75,17 @@ const listRestaurantsFromJson = () => {
         addRestaurant(resto);
     });
 }
-/**
- *Appel la fonctiion qui filtre les restaurants en fonction de la note
- */
-const filterRestaurants = () => {
-    restaurantjs.displayFilterRestaurant(listRestaurants,$( "#slider-range" ).slider( "values", 0 ),$( "#slider-range" ).slider( "values", 1 ));
-}
 
 /**
  *Ecouteurs d'évenements
  */
 const idleEvents = () => {
-    google.maps.event.addListener(map, 'zoom_changed', filterRestaurants());
-     google.maps.event.addListener(map, 'drag', filterRestaurants());
+    google.maps.event.addListener(map, 'zoom_changed', () => {
+        restaurantjs.displayFilterRestaurant(listRestaurants,$( "#slider-range" ).slider( "values", 0 ),$( "#slider-range" ).slider( "values", 1 ));
+     });
+     google.maps.event.addListener(map, 'drag', () => {
+        restaurantjs.displayFilterRestaurant(listRestaurants,$( "#slider-range" ).slider( "values", 0 ),$( "#slider-range" ).slider( "values", 1 ));
+     });
     restaurantjs.addMarkerNewRestaurant();
     restaurantjs.checkFilterRates();
 }
