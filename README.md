@@ -43,35 +43,12 @@ Pour l'instant, il n'y a pas beaucoup de restaurants et pas beaucoup d'avis. Heu
 
 NodeJS version 8 min
 
-Une clé Google Map API Javascript
-
 ### Installing
 Installer les modules du fichier package.json :
 
 ```
 npm install
 ```
-
-Créer un fichier .env dans le dossier racine :
-
-Ajouter votre clé Google Map pour faire fonctionner l'API dans le fichier .env
-
-Remplaçer les XXXXXXX par votre clé :
-
-```
-GOOGLEMAPS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-```
-Sur votre compte google cloud platform : https://console.cloud.google.com/
-
-Il faudra créer un nouveau projet et activer les API suivantes :
-
-Maps Javascript API
-
-Geocoding API
-
-Street View Static API
-
-Places API
 
 Lancer l'application en mode développeur via la commande :
 
