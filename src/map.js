@@ -8,7 +8,6 @@ import { jsonFile } from './services';
 
 export let listRestaurants = [], map;
 
-
 /**
  *Utilistion d'un module webpack pour charger l'api google map
  * @export
@@ -77,17 +76,18 @@ const listRestaurantsFromJson = () => {
     });
 }
 /**
+ *Appel la fonctiion qui filtre les restaurants en fonction de la note
+ */
+const filterRestaurants = () => {
+    restaurantjs.displayFilterRestaurant(listRestaurants,$( "#slider-range" ).slider( "values", 0 ),$( "#slider-range" ).slider( "values", 1 ));
+}
+
+/**
  *Ecouteurs d'évenements
  */
 const idleEvents = () => {
-    google.maps.event.addListener(map, 'zoom_changed', () => {
-        //restaurantjs.displayVisibleRestaurantsOnMap();
-        restaurantjs.displayFilterRestaurant(listRestaurants,$( "#slider-range" ).slider( "values", 0 ),$( "#slider-range" ).slider( "values", 1 ));
-     });
-     google.maps.event.addListener(map, 'dragend', () => {
-        //restaurantjs.displayVisibleRestaurantsOnMap();
-        restaurantjs.displayFilterRestaurant(listRestaurants,$( "#slider-range" ).slider( "values", 0 ),$( "#slider-range" ).slider( "values", 1 ));
-     });
+    google.maps.event.addListener(map, 'zoom_changed', filterRestaurants());
+     google.maps.event.addListener(map, 'drag', filterRestaurants());
     restaurantjs.addMarkerNewRestaurant();
     restaurantjs.checkFilterRates();
 }

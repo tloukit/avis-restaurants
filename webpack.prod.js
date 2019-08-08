@@ -1,18 +1,20 @@
 const path = require('path');
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OptimizeCSSAssets = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 const devMode = process.env.NODE_ENV === 'production';
- 
+
 module.exports = {
     entry : './src/index.js',
     output : {
         filename : 'bundle.js',
         path : path.resolve(__dirname, './public')
     },
-    
+
      stats: {
         entrypoints: false,
         children: false
@@ -37,6 +39,18 @@ module.exports = {
                     outputPath: 'fonts/'
                 }
               }]
+            },
+            {
+                type: 'javascript/auto',
+                test: /\.json$/,
+                use: [
+                    {
+                      loader: 'file-loader',
+                      options: {
+                            name: "./json/[name].[ext]"
+                      }
+                    }
+                ]
             },
             {
               test: /\.html$/,
@@ -67,7 +81,7 @@ module.exports = {
           }),
       ],
     },
-    
+
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
@@ -76,8 +90,14 @@ module.exports = {
         new OptimizeCSSAssets({}),
         new HtmlWebpackPlugin({
           template: './src/index.html'
+        }),
+        new Dotenv(),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery'",
+            "window.$": "jquery"
         })
-
     ],
     mode : devMode ? 'development' : 'production'
 };
