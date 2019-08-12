@@ -140,12 +140,12 @@ const nearbySearchPlaces = () => {
                             null);
                         addRestaurant(resto);
                     } else {
-                        $('#map').append(templates.errorHandler('Error status: '+status));
+                        $('#map').append(templates.errorHandler('Error Place Service status: '+status));
                     }
                 });
             })
         } else {
-            $('#map').append(templates.errorHandler('Error status: '+status));
+            $('#map').append(templates.errorHandler('Error Place Details Service status: '+status));
         }
     });
 }

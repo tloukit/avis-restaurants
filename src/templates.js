@@ -5,6 +5,7 @@
  * @returns
  */
 export function errorHandler(error){
+    $('#map').empty();
     let html = `
     <div class="error col-12 mt-4">
         <p>Nous avons rencontré une erreur d'exploitation sur notre site.</p>
@@ -162,7 +163,7 @@ export function formAddRestaurant(){
             </div>
         </div>
         <button type="button" class="btn btn-primary" id="submit-restaurant">Ajouter</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-secondary close-modal-restaurant" data-dismiss="modal">Fermer</button>
     </form>
     `
     return html

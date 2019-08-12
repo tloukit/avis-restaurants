@@ -15,7 +15,6 @@ const fetchUrlJson = fetch(urlJson);
 const timeout = new Promise((reject) => {
     return setTimeout(() => reject(new Error('request timeout')), 10000);
 });
-
 // Promise race contenant les 2 promise dans un tableau la première reqûete qui répond passe dans le pipe 'then'
 export const promiseRace = Promise.race([fetchUrlJson, timeout])
     .then((response) => {

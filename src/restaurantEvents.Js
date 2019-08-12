@@ -20,25 +20,23 @@ export let globalCommentRate = null;
  * @export
  */
 export function addMarkerNewRestaurant (){
-    $('#add-restaurant').off('click').on('click',()=> {
-        const mark = map.addListener('click', (e) => {
-            placeMarkerAndPanTo(e.latLng, map);
-            google.maps.event.removeListener(mark);
-            displayModalRestaurant(e.latLng);
-        },{once : true});
+    const mark = map.addListener('click', (e) => {
+        placeMarkerAndPanTo(e.latLng, map);
+        google.maps.event.removeListener(mark);
+        displayModalRestaurant(e.latLng);
+    },{once : true});
 
-        const placeMarkerAndPanTo = (latLng, map) => {
-            const marker = new google.maps.Marker({
-                position: latLng,
-                map: map
-            });
-            marker.setVisible(false);
-            globalTempMarker = marker;
-            let geocoder = new google.maps.Geocoder();
-            geocodeLatLng(geocoder,marker.map,marker.position);
-            map.panTo(latLng);
-        }
-    })
+    const placeMarkerAndPanTo = (latLng, map) => {
+        const marker = new google.maps.Marker({
+            position: latLng,
+            map: map
+        });
+        marker.setVisible(false);
+        globalTempMarker = marker;
+        let geocoder = new google.maps.Geocoder();
+        geocodeLatLng(geocoder,marker.map,marker.position);
+        map.panTo(latLng);
+    }
 }
 
 /**
@@ -49,6 +47,7 @@ function displayModalRestaurant (position) {
     $('.modal-body,.modal-title,#add-comment').empty();
     $('.modal-title').append(templates.headerAddRestaurant(position));
     $('.modal-body').append(templates.formAddRestaurant);
+    eventCloseModalRestaurant();
 }
 
 /**
@@ -70,10 +69,10 @@ function geocodeLatLng(geocoder,map,position) {
                 let splittedAdd = address.split(',');
                 addAdressToInput(splittedAdd,latlng);
             } else {
-                window.alert('No results found');
+                $('#map').append(templates.errorHandler('Geocode : Pas de résultat'));
             }
         } else {
-            window.alert('Geocoder failed due to: ' + status);
+            $('#map').append(templates.errorHandler('Erreur Geocoder : '+status));
         }
     });
 }
@@ -85,7 +84,7 @@ function geocodeLatLng(geocoder,map,position) {
  */
 function addAdressToInput (splittedAdd,latLng){
     let postalcodeAndCity = splittedAdd[1].split(' ');
-    let [emptyIndex,postalcode, ...city] = postalcodeAndCity;
+    let [,postalcode, ...city] = postalcodeAndCity;
     city = city.join(' ');
     $("#form-address-restaurant").attr("placeholder", splittedAdd[0]);
     $("#form-city-restaurant").attr("placeholder", city);
@@ -113,12 +112,23 @@ function restaurantValidation(latLng){
                 restaurantObject.commentValidation();
             });
             $('#modal-element').modal('hide');
+            addMarkerNewRestaurant();
 
         } else {
-            $('.invalid-message').html('<p>Veuillez remplir le champ uniquement avec des chiffres et/ou des lettres</p>')
+            $('.invalid-message').html('<p>Veuillez remplir le champ uniquement avec au moins 3 chiffres et/ou des lettres</p>')
             $('.invalid-message').addClass('visibility-show');
         }
     })
+}
+
+/**
+ *Créer l'évenement qui permet d'ajouter un restaurant à la fermeture de la modal d'ajout de restaurant
+ * @export
+ */
+export function eventCloseModalRestaurant(){
+    $('.close-modal-restaurant').off('click').on('click',()=>{
+        addMarkerNewRestaurant();
+    });
 }
 
 /**
@@ -151,12 +161,12 @@ export function checkFilterRates(){
  */
 export function displayFilterRestaurant(listRestaurants,min,max){
     const bds = map.getBounds();
-    const South_Lat = bds.getSouthWest().lat();
-    const South_Lng = bds.getSouthWest().lng();
-    const North_Lat = bds.getNorthEast().lat();
-    const North_Lng = bds.getNorthEast().lng();
+    const southLat = bds.getSouthWest().lat();
+    const southLng = bds.getSouthWest().lng();
+    const northLat = bds.getNorthEast().lat();
+    const northLng = bds.getNorthEast().lng();
     listRestaurants.forEach(restaurant => {
-        if(restaurant.calcAverageRateRestaurant >= min && restaurant.calcAverageRateRestaurant <= max && restaurant.lat > South_Lat && restaurant.lat < North_Lat && restaurant.long > South_Lng && restaurant.long < North_Lng){
+        if(restaurant.calcAverageRateRestaurant >= min && restaurant.calcAverageRateRestaurant <= max && restaurant.lat > southLat && restaurant.lat < northLat && restaurant.long > southLng && restaurant.long < northLng){
             $('.'+restaurant.parsedRestaurantName).attr("style", "display: flex !important");
             restaurant.marker.setMap(map);
         } else {
