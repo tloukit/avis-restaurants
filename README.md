@@ -65,6 +65,11 @@ npm run build
 
 ## Built With
 
+* [GOOGLE MAP API - Maps Javascript](https://cloud.google.com/maps-platform/) - API
+* [GOOGLE MAP API - Geocoding](https://cloud.google.com/maps-platform/) - API
+* [GOOGLE MAP API - Street View Static](https://cloud.google.com/maps-platform/) - API
+* [GOOGLE MAP API - Places](https://cloud.google.com/maps-platform/) - API
+
 * [WEBPACK](https://webpack.js.org/) - Bundler
 * [BABEL](https://babeljs.io/) - Compilateur javascript
 * [JQUERY](https://jquery.com/) - Bibliothèque javascript

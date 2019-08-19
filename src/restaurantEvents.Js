@@ -1,8 +1,8 @@
 import $ from 'jquery'
 import { map } from './map'
 import { listRestaurants } from './map';
-import * as templates from '../src/templates';
-import * as restaurant from '../src/restaurant';
+import * as templates from './templates';
+import * as restaurant from './restaurant';
 
 
 /**
@@ -126,9 +126,9 @@ function restaurantValidation(latLng){
  * @export
  */
 export function eventCloseModalRestaurant(){
-    $('.close-modal-restaurant').off('click').on('click',()=>{
+    $('#modal-element').on('hidden.bs.modal', () => {
         addMarkerNewRestaurant();
-    });
+    })
 }
 
 /**
@@ -177,11 +177,11 @@ export function displayFilterRestaurant(listRestaurants,min,max){
 }
 
 /**
- *
- *
+ *Gestion de l'ajout des étoiles
  * @export
  */
 export function ratingStars(){
+    globalCommentRate = null;
     const starsClass = ['s5','s4','s3','s2','s1'];
     let rate;
     for (let i = 0 ; i < starsClass.length; i++){

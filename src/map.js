@@ -1,6 +1,6 @@
 const loadGoogleMapsApi = require('load-google-maps-api')
 import $ from 'jquery';
-import * as restaurantjs from '../src/restaurantEvents';
+import * as restaurantjs from './restaurantEvents';
 import * as restaurant from '../src/restaurant';
 import * as templates from '../src/templates';
 import imageMarkerGeo from '../src/assets/images/geo.png';
@@ -24,7 +24,7 @@ export function initGMap() {
  */
 const googleMaps = () => {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(positionSuccess,positionError);
+        navigator.geolocation.getCurrentPosition(positionSuccess,positionRefused);
     } else {
         $('#map').append(templates.errorHandler('La géolocalisation n\'est pas supportée par votre navigateur.<br>Veuillez changer de navigateur pour pouvoir utiliser ce service.'));
     }
@@ -57,8 +57,28 @@ const positionSuccess = (position) => {
 /**
  *Message d'erreur en cas de géolocalisation désactivée
  */
-const positionError = () => {
-    $('#map').append(templates.errorHandler('La géolocalisation de votre navigateur est desactivée.<br>Veuillez l\'activer pour pouvoir utiliser ce service.'));
+const positionRefused = () => {
+    const
+    defaultLat = 48.8534,
+    defaultLng = 2.3488;
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+            lat: defaultLat,
+            lng: defaultLng
+        },
+        zoom: 10
+    });
+    new google.maps.Marker({
+        position: {
+            lat: defaultLat,
+            lng: defaultLng
+        },
+        map,
+        icon: imageMarkerGeo
+    });
+    listRestaurantsFromJson();
+    idleEvents();
+    nearbySearchPlaces();
 }
 /**
  *Création de l'affichage de chaque restaurant du fichier JSON

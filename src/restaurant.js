@@ -1,9 +1,9 @@
 import { map } from './map'
 import * as templates from '../src/templates';
-import * as restaurantjs from '../src/restaurantEvents';
+import * as restaurantjs from './restaurantEvents';
 import './restaurantEvents.js';
 import imageMarkerRestaurant from '../src/assets/images/marker_location_restaurant.png';
-import { globalCommentRate } from '../src/restaurantEvents';
+import { globalCommentRate } from './restaurantEvents';
 import $ from 'jquery';
 
 /**
