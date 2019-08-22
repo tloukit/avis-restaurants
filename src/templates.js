@@ -128,7 +128,7 @@ export function headerAddRestaurant(position) {
     let html = `
         <p class="font-weight-lighter">
             <img class="img-streetview img-thumbnail" src="https://maps.googleapis.com/maps/api/streetview?location=${position.lat()},${position.lng()}&size=456x456&key=${process.env.GOOGLEMAPS_KEY}"/>
-            Ajoutez le nom de votre restaurant
+            <span class='title-addrestaurant'>Ajoutez le nom de votre restaurant</span>
         </p>
     `
     return html;
