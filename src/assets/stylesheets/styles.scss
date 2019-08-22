@@ -1,6 +1,5 @@
 @import "~bootstrap/scss/bootstrap";
-//@import "https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css";
-
+@import "./couleurs.scss";
 html, body {
   height: 100%;
   margin: 0;
@@ -20,10 +19,9 @@ html, body {
 }
 #rates{
   border:0;
-  color:#000000;
 }
 #add-comment{
-  border-top: 1px solid #dee2e6;
+  border-top: 1px solid $color_bloc_comment_separator;
   padding-top: 30px;
 }
 
@@ -38,43 +36,45 @@ html, body {
   margin-bottom: -48%;
   transform: translate(-50%,-50%);
   direction: rtl;
-}
-.stars i{
-  font-size: 30px;
-  transition: 0.3s all;
-}
-.stars i:hover{
-  color:#f1c40f;
-}
-.s1:hover ~ i{
-  color:#f1c40f;
-}
-.s2:hover ~ i{
-  color:#f1c40f;
-}
-.s3:hover ~ i{
-  color:#f1c40f;
-}
-.s4:hover ~ i{
-  color:#f1c40f;
-}
-.s5:hover ~ i{
-  color:#f1c40f;
+  i{
+    font-size: 30px;
+    transition: 0.3s all;
+    &:hover{
+      color: $color_yellow_star;
+    }
+  }
+  &-full{
+    font-size: 30px;
+    color:$color_yellow_star;
+  }
 }
 
-.stars-full{
-  font-size: 30px;
-  color:#f1c40f;
+
+.s1:hover ~ i{
+  color:$color_yellow_star;
 }
+.s2:hover ~ i{
+  color:$color_yellow_star;
+}
+.s3:hover ~ i{
+  color:$color_yellow_star;
+}
+.s4:hover ~ i{
+  color:$color_yellow_star;
+}
+.s5:hover ~ i{
+  color:$color_yellow_star;
+}
+
 .list-group-item:hover{
-  background-color: #9EDBFF;
+  background-color: $color_background_list_restaurant;
 }
 .img-streetview {
   height: 100px;
 }
 
 .invalid-message{
-  color:red;
+  color:$color_invalid_message;
   font-size: 13px;
   text-align: center;
   height: 15px;

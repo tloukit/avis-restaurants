@@ -10,7 +10,7 @@ import $ from 'jquery';
  * @export
  * @class Restaurant
  */
-export class Restaurant{
+export class Restaurant {
     /**
      *Creates an instance of Restaurant.
      * @param {*} restaurantName Nom du restaurant
@@ -22,7 +22,7 @@ export class Restaurant{
      *
      * @memberof Restaurant
      */
-    constructor(restaurantName,address,lat,long,ratings,marker){
+    constructor(restaurantName, address, lat, long, ratings, marker) {
         this.restaurantName = restaurantName;
         this.address = address;
         this.lat = lat;
@@ -35,13 +35,13 @@ export class Restaurant{
      * @readonly
      * @memberof Restaurant
      */
-    get calcAverageRateRestaurant(){
+    get calcAverageRateRestaurant() {
 
-        if(this.ratings.length === 0){
+        if (this.ratings.length === 0) {
             return 0;
         } else {
             let total = 0;
-            for (let i = 0; i < this.ratings.length; i++){
+            for (let i = 0; i < this.ratings.length; i++) {
                 total += this.ratings[i].stars;
             }
             return (total / this.ratings.length).toFixed(1);
@@ -52,22 +52,22 @@ export class Restaurant{
      * @readonly
      * @memberof Restaurant
      */
-    get parsedRestaurantName(){
+    get parsedRestaurantName() {
         return this.restaurantName.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\//\s/]/gi, '');
     }
     /**
      *Affiche le marker du restaurant sur la map et affiche le restaurant dans la liste
      * @memberof Restaurant
      */
-    displayRestaurant(){
-        $('#list-restaurants').append(templates.addRestaurant(this.parsedRestaurantName,this.restaurantName,this.calcAverageRateRestaurant));
+    displayRestaurant() {
+        $('#list-restaurants').append(templates.addRestaurant(this.parsedRestaurantName, this.restaurantName, this.calcAverageRateRestaurant));
         const marker = new google.maps.Marker({
             position: {
                 lat: this.lat,
                 lng: this.long
             },
             map: map,
-            icon:imageMarkerRestaurant
+            icon: imageMarkerRestaurant
         });
         this.marker = marker;
         this.clickEventRestaurant();
@@ -76,7 +76,7 @@ export class Restaurant{
      *Permet d'afficher une modal avec les infos du resto et les reviews
      * @memberof Restaurant
      */
-    clickEventRestaurant(){
+    clickEventRestaurant() {
         $('.' + this.parsedRestaurantName).off('click').on('click', () => {
             map.setCenter(this.marker.getPosition());
             map.setZoom(15);
@@ -89,7 +89,7 @@ export class Restaurant{
      *Permet d'afficher la modal
      * @memberof Restaurant
      */
-    displayModal(){
+    displayModal() {
         $('.modal-body').empty();
         $('.modal-title').empty();
         $('#add-comment').empty();
@@ -99,8 +99,8 @@ export class Restaurant{
      *Permet d'afficher les commentaires d'un restaurant
      * @memberof Restaurant
      */
-    displayComments(){
-        $('.modal-title').append(templates.contentHeaderComments(this.restaurantName,this.address,this.calcAverageRateRestaurant,this.parsedRestaurantName,this.lat,this.long));
+    displayComments() {
+        $('.modal-title').append(templates.contentHeaderComments(this.restaurantName, this.address, this.calcAverageRateRestaurant, this.parsedRestaurantName, this.lat, this.long));
         $('.modal-body').append(templates.contentBodyComments(this.ratings));
         $('#add-comment').append(templates.formComments());
         restaurantjs.ratingStars();
@@ -109,16 +109,16 @@ export class Restaurant{
      *Controle du formulaire de validation de commentaire
      * @memberof Restaurant
      */
-    commentValidation(){
-        $('#submit-comment').off('click').on('click',() => {
+    commentValidation() {
+        $('#submit-comment').off('click').on('click', () => {
             const
-            rate = globalCommentRate,
-            comment = ($('#textarea-comm').val());
+                rate = globalCommentRate,
+                comment = ($('#textarea-comm').val());
             $('.invalid-message').removeClass('visibility-hide');
-            if(rate !== null && comment.length >= 3){
+            if (rate !== null && comment.length >= 3) {
                 const rating = {
-                    stars:parseInt(rate),
-                    comment:comment
+                    stars: parseInt(rate),
+                    comment: comment
                 };
                 this.ratings.push(rating);
                 $('.modal-body').empty();
@@ -137,11 +137,11 @@ export class Restaurant{
      * @memberof Restaurant
      */
     updateStarsRestaurant() {
-        $('.'+this.parsedRestaurantName+' > span.badge')
-        .empty()
-        .append(this.calcAverageRateRestaurant);
-        $('.'+this.parsedRestaurantName+''+'-title > span.badge')
-        .empty()
-        .append('Note du restaurant : '+this.calcAverageRateRestaurant);
+        $('.' + this.parsedRestaurantName + ' > span.badge')
+            .empty()
+            .append(this.calcAverageRateRestaurant);
+        $('.' + this.parsedRestaurantName + '' + '-title > span.badge')
+            .empty()
+            .append('Note du restaurant : ' + this.calcAverageRateRestaurant);
     }
 }

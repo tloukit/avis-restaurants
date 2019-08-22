@@ -4,7 +4,7 @@
  * @param {*} error
  * @returns
  */
-export function errorHandler(error){
+export function errorHandler(error) {
     $('#map').empty();
     let html = `
     <div class="error col-12 mt-4">
@@ -25,7 +25,7 @@ export function errorHandler(error){
  * @param {*} restaurantAverageRate note moyenne du restaurant
  * @returns
  */
-export function addRestaurant(restaurantCSSClass,restaurantName,restaurantAverageRate){
+export function addRestaurant(restaurantCSSClass, restaurantName, restaurantAverageRate) {
     let html = `
     <li class= "list-group-item d-flex justify-content-between align-items-center ${restaurantCSSClass}">
         ${restaurantName}
@@ -45,7 +45,7 @@ export function addRestaurant(restaurantCSSClass,restaurantName,restaurantAverag
  * @param {*} restaurantLong longitude du restaurant
  * @returns
  */
-export function contentHeaderComments(restaurantName,restaurantAddress,restaurantAverageRate,restaurantCSSClass,restaurantLat,restaurantLong){
+export function contentHeaderComments(restaurantName, restaurantAddress, restaurantAverageRate, restaurantCSSClass, restaurantLat, restaurantLong) {
     let html = `
     <p class=${restaurantCSSClass}-title>
         <img class="img-streetview img-thumbnail" src="https://maps.googleapis.com/maps/api/streetview?location=${restaurantLat},${restaurantLong}&size=456x456&key=${process.env.GOOGLEMAPS_KEY}" alt="Image de${restaurantName}" />
@@ -63,17 +63,17 @@ export function contentHeaderComments(restaurantName,restaurantAddress,restauran
  * @param {*} ratings un objet contenant un commentaire et une note
  * @returns
  */
-export function contentBodyComments(ratings){
+export function contentBodyComments(ratings) {
     let i = 0;
     let html = '';
-    while (i < ratings.length){
+    while (i < ratings.length) {
         html += `
         <div class="content-body-comments">
             <p class="badge badge-primary text-wrap">Note ${ratings[i].stars}</p>
             <p>${ratings[i].comment}</p>
             <hr>
         </div>`
-        i ++;
+        i++;
     }
     return html;
 }
@@ -83,7 +83,7 @@ export function contentBodyComments(ratings){
  * @export
  * @returns
  */
-export function contentBodyCommentsAdded(){
+export function contentBodyCommentsAdded() {
     let html = '<p class="mb-3 col-12"> Votre commentaire a bien été ajouté </p>';
     return html;
 }
@@ -93,21 +93,21 @@ export function contentBodyCommentsAdded(){
  * @export
  * @returns
  */
-export function formComments(){
+export function formComments() {
     let html = `
         <div class="input-group mb-3 col-12">
-        <div class="stars">
-            <i class="icon ion-md-star s1"></i>
-            <i class="icon ion-md-star s2"></i>
-            <i class="icon ion-md-star s3"></i>
-            <i class="icon ion-md-star s4"></i>
-            <i class="icon ion-md-star s5"></i>
-        </div>
+            <div class="stars">
+                <i class="icon ion-md-star s1"></i>
+                <i class="icon ion-md-star s2"></i>
+                <i class="icon ion-md-star s3"></i>
+                <i class="icon ion-md-star s4"></i>
+                <i class="icon ion-md-star s5"></i>
+            </div>
         </div>
         <div class="form-group col-12">
-                <label for="textarea-comm">Votre commentaire :</label>
-                <textarea class="form-control" id="textarea-comm" rows="3"></textarea>
-                <div class="invalid-message visibility-hide"></div>
+            <label for="textarea-comm">Votre commentaire :</label>
+            <textarea class="form-control" id="textarea-comm" rows="3"></textarea>
+            <div class="invalid-message visibility-hide"></div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -124,12 +124,12 @@ export function formComments(){
  * @export
  * @returns
  */
-export function headerAddRestaurant(position){
+export function headerAddRestaurant(position) {
     let html = `
-    <p class="font-weight-lighter">
-    <img class="img-streetview img-thumbnail" src="https://maps.googleapis.com/maps/api/streetview?location=${position.lat()},${position.lng()}&size=456x456&key=${process.env.GOOGLEMAPS_KEY}"/>
-    Ajoutez le nom de votre restaurant
-    </p>
+        <p class="font-weight-lighter">
+            <img class="img-streetview img-thumbnail" src="https://maps.googleapis.com/maps/api/streetview?location=${position.lat()},${position.lng()}&size=456x456&key=${process.env.GOOGLEMAPS_KEY}"/>
+            Ajoutez le nom de votre restaurant
+        </p>
     `
     return html;
 }
@@ -140,7 +140,7 @@ export function headerAddRestaurant(position){
  * @export
  * @returns
  */
-export function formAddRestaurant(){
+export function formAddRestaurant() {
     let html = `
     <form>
         <div class="form-group">
@@ -149,8 +149,8 @@ export function formAddRestaurant(){
             <div class="invalid-message visibility-hide"></div>
         </div>
         <div class="form-group">
-        <label for="inputAddress">Adresse</label>
-        <input type="text" class="form-control" id="form-address-restaurant" placeholder="Adresse du restaurant" disabled >
+            <label for="inputAddress">Adresse</label>
+            <input type="text" class="form-control" id="form-address-restaurant" placeholder="Adresse du restaurant" disabled >
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">

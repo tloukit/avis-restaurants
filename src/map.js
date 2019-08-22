@@ -6,7 +6,8 @@ import * as templates from '../src/templates';
 import imageMarkerGeo from '../src/assets/images/geo.png';
 import { jsonFile } from './services';
 
-export let listRestaurants = [], map;
+export let listRestaurants = [],
+    map;
 
 /**
  *Utilistion d'un module webpack pour charger l'api google map
@@ -24,7 +25,7 @@ export function initGMap() {
  */
 const googleMaps = () => {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(positionSuccess,positionRefused);
+        navigator.geolocation.getCurrentPosition(positionSuccess, positionRefused);
     } else {
         $('#map').append(templates.errorHandler('La géolocalisation n\'est pas supportée par votre navigateur.<br>Veuillez changer de navigateur pour pouvoir utiliser ce service.'));
     }
@@ -59,8 +60,8 @@ const positionSuccess = (position) => {
  */
 const positionRefused = () => {
     const
-    defaultLat = 48.8534,
-    defaultLng = 2.3488;
+        defaultLat = 48.8534,
+        defaultLng = 2.3488;
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
             lat: defaultLat,
@@ -101,11 +102,11 @@ const listRestaurantsFromJson = () => {
  */
 const idleEvents = () => {
     google.maps.event.addListener(map, 'zoom_changed', () => {
-        restaurantjs.displayFilterRestaurant(listRestaurants,$( "#slider-range" ).slider( "values", 0 ),$( "#slider-range" ).slider( "values", 1 ));
-     });
-     google.maps.event.addListener(map, 'drag', () => {
-        restaurantjs.displayFilterRestaurant(listRestaurants,$( "#slider-range" ).slider( "values", 0 ),$( "#slider-range" ).slider( "values", 1 ));
-     });
+        restaurantjs.displayFilterRestaurant(listRestaurants, $("#slider-range").slider("values", 0), $("#slider-range").slider("values", 1));
+    });
+    google.maps.event.addListener(map, 'drag', () => {
+        restaurantjs.displayFilterRestaurant(listRestaurants, $("#slider-range").slider("values", 0), $("#slider-range").slider("values", 1));
+    });
     restaurantjs.addMarkerNewRestaurant();
     restaurantjs.checkFilterRates();
 }
@@ -131,10 +132,10 @@ const nearbySearchPlaces = () => {
         keyword: 'Restaurant',
         location: map.center,
         radius: 500,
-        type:'restaurant'
+        type: 'restaurant'
     };
     const service = new google.maps.places.PlacesService(map);
-    service.nearbySearch(request, function(results, status) {
+    service.nearbySearch(request, function (results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             results.forEach(place => {
                 const placeDetailsRequest = {
@@ -143,12 +144,12 @@ const nearbySearchPlaces = () => {
                 };
                 map.setCenter(place.geometry.location);
                 let reviews = [];
-                service.getDetails(placeDetailsRequest,(resultsDetails,status) => {
+                service.getDetails(placeDetailsRequest, (resultsDetails, status) => {
                     if (status === google.maps.places.PlacesServiceStatus.OK) {
                         resultsDetails.reviews.forEach(review => {
                             reviews.push({
-                                stars:review.rating,
-                                comment:review.text
+                                stars: review.rating,
+                                comment: review.text
                             });
                         });
                         const resto = new restaurant.Restaurant(
@@ -159,13 +160,9 @@ const nearbySearchPlaces = () => {
                             reviews,
                             null);
                         addRestaurant(resto);
-                    } else {
-                        $('#map').append(templates.errorHandler('Error Place Service status: '+status));
                     }
                 });
             })
-        } else {
-            $('#map').append(templates.errorHandler('Error Place Details Service status: '+status));
         }
     });
 }

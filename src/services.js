@@ -3,8 +3,6 @@ import $ from 'jquery'
 import { initGMap } from '../src/map'
 import { errorHandler } from '../src/templates'
 
-export let jsonFile;
-
 // Liste des restaurants JSON récupérée
 let urlJson = require('./assets/json/restaurants.json');
 
@@ -18,15 +16,18 @@ const timeout = new Promise((reject) => {
 // Promise race contenant les 2 promise dans un tableau la première reqûete qui répond passe dans le pipe 'then'
 export const promiseRace = Promise.race([fetchUrlJson, timeout])
     .then((response) => {
-        if(response.ok){
+        if (response.ok) {
             return response.json();
         } else {
             throw new Error(response.statusText);
         }
     })
-   .then((value) => {
+    .then((value) => {
         jsonFile = value;
     });
+
+export let jsonFile;
+
 
 // Execution de la promise race et catch si erreur retournée puis affichage du template 'errorHandler'
 promiseRace.then((initGMap())).catch(error => $('#map').append(errorHandler(error)));
