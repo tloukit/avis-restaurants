@@ -166,7 +166,7 @@ export function displayFilterRestaurant(listRestaurants,min,max){
     const northLat = bds.getNorthEast().lat();
     const northLng = bds.getNorthEast().lng();
     listRestaurants.forEach(restaurant => {
-        if(restaurant.calcAverageRateRestaurant >= min && restaurant.calcAverageRateRestaurant <= max && restaurant.lat > southLat && restaurant.lat < northLat && restaurant.long > southLng && restaurant.long < northLng){
+        if(restaurant.averageRate >= min && restaurant.averageRate <= max && restaurant.lat > southLat && restaurant.lat < northLat && restaurant.long > southLng && restaurant.long < northLng){
             $('.'+restaurant.parsedRestaurantName).attr("style", "display: flex !important");
             restaurant.marker.setMap(map);
         } else {

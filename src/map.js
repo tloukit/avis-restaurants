@@ -87,12 +87,15 @@ const positionRefused = () => {
 const listRestaurantsFromJson = () => {
     jsonFile.forEach(element => {
         const resto = new restaurant.Restaurant(
+            null,
             element.restaurantName,
             element.address,
             element.lat,
             element.long,
             element.ratings,
-            null);
+            null,
+            null,
+            true);
         addRestaurant(resto);
     });
 }
@@ -125,7 +128,7 @@ const addRestaurant = (resto) => {
     });
 }
 /**
- *Recherche de restaurants et de reviews correspondant à la requête
+ *Recherche de restaurants correspondant à la requête
  */
 const nearbySearchPlaces = () => {
     const request = {
@@ -138,31 +141,21 @@ const nearbySearchPlaces = () => {
     service.nearbySearch(request, function (results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             results.forEach(place => {
-                const placeDetailsRequest = {
-                    fields: ['reviews'],
-                    placeId: place.place_id
-                };
                 map.setCenter(place.geometry.location);
-                let reviews = [];
-                service.getDetails(placeDetailsRequest, (resultsDetails, status) => {
-                    if (status === google.maps.places.PlacesServiceStatus.OK) {
-                        resultsDetails.reviews.forEach(review => {
-                            reviews.push({
-                                stars: review.rating,
-                                comment: review.text
-                            });
-                        });
-                        const resto = new restaurant.Restaurant(
-                            place.name,
-                            place.vicinity,
-                            place.geometry.location.lat(),
-                            place.geometry.location.lng(),
-                            reviews,
-                            null);
-                        addRestaurant(resto);
-                    }
-                });
+                const resto = new restaurant.Restaurant(
+                    place.place_id,
+                    place.name,
+                    place.vicinity,
+                    place.geometry.location.lat(),
+                    place.geometry.location.lng(),
+                    [],
+                    place.rating,
+                    null,
+                    false);
+                addRestaurant(resto);
             })
+        } else {
+            $('#map').append(templates.errorHandler('Erreur nearbySearch : '+status));
         }
     });
 }
