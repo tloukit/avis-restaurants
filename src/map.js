@@ -123,8 +123,8 @@ const addRestaurant = (resto) => {
     resto.displayRestaurant();
     resto.marker.addListener('click', () => {
         resto.displayModal();
-        resto.displayComments();
-        resto.commentValidation();
+        (resto.reviewAdded === false) ? resto.getReviewsRequest() : resto.displayComments();
+
     });
 }
 /**
