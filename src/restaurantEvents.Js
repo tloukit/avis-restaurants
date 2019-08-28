@@ -103,7 +103,7 @@ function restaurantValidation(latLng){
         $('.invalid-message').removeClass('visibility-hide');
         if (restaurantName.length > 2 && restaurantName.match(regexAlphaNumChar)){
             const latlngJson = latLng.toJSON();
-            listRestaurants.push(new restaurant.Restaurant(restaurantName,globalTempAddress,latlngJson.lat,latlngJson.lng,[],globalTempMarker));
+            listRestaurants.push(new restaurant.Restaurant(null,restaurantName,globalTempAddress,latlngJson.lat,latlngJson.lng,[],null,globalTempMarker,true));
             const restaurantObject = listRestaurants.slice(-1).pop();
             listRestaurants.slice(-1).pop().displayRestaurant();
             restaurantObject.marker.addListener('click', () => {

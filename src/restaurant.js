@@ -13,13 +13,16 @@ import $ from 'jquery';
 export class Restaurant {
     /**
      *Creates an instance of Restaurant.
+     * @param {*} placeId Nom du restaurant
      * @param {*} restaurantName Nom du restaurant
      * @param {*} address Adresse du restaurant
      * @param {*} lat Latitude du restaurant
      * @param {*} long Longitude du restaurant
      * @param {*} ratings Chaque commentaire est stocké dans un objet et ensuite dans un array
-     * @param {*} averageRate Note moyenne
+     * @param {*} averageRate Note moyenne du restaurant
      * @param {*} marker Marker instancié via l'api google maps
+     * @param {*} reviewAdded Booléen pour savoir si des commentaires on déjà été utilisés
+     * @param {*} calcAverageRateRestaurant Calcul de la note moyenne du restaurant
      *
      * @memberof Restaurant
      */
@@ -98,6 +101,7 @@ export class Restaurant {
                     this.reviewAdded = true;
                 });
                 this.displayComments();
+                this.commentValidation();
             } else {
                 $('#map').append(templates.errorHandler('Erreur placeDetailsRequest: '+status));
             }
@@ -113,7 +117,6 @@ export class Restaurant {
             map.setZoom(15);
             this.displayModal();
             (this.reviewAdded === false) ? this.getReviewsRequest() : this.displayComments();
-            this.commentValidation();
         })
     }
     /**
@@ -134,6 +137,7 @@ export class Restaurant {
         $('.modal-title').append(templates.contentHeaderComments(this.restaurantName, this.address, this.averageRate, this.parsedRestaurantName, this.lat, this.long));
         $('.modal-body').append(templates.contentBodyComments(this.ratings));
         $('#add-comment').append(templates.formComments());
+        this.commentValidation();
         restaurantjs.ratingStars();
     }
     /**
@@ -141,6 +145,7 @@ export class Restaurant {
      * @memberof Restaurant
      */
     commentValidation() {
+        console.log("comment validation")
         $('#submit-comment').off('click').on('click', () => {
             const
                 rate = globalCommentRate,
