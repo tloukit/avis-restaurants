@@ -145,7 +145,6 @@ export class Restaurant {
      * @memberof Restaurant
      */
     commentValidation() {
-        console.log("comment validation")
         $('#submit-comment').off('click').on('click', () => {
             const
                 rate = globalCommentRate,

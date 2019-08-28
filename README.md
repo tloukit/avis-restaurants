@@ -49,7 +49,6 @@ Installer les modules du fichier package.json :
 ```
 npm install
 ```
-
 Lancer l'application en mode développeur via la commande :
 
 ```
