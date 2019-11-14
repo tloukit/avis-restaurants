@@ -1,7 +1,9 @@
 # PROJET 7 - Site d'avis de restaurants
 Réalisé dans le cadre de la formation développeur d'application front-end Openclassrooms
-
+[DEMO](https://steventchakpe.com/openclassrooms/avis_restaurants/) 
 ![Image du site d'avis de restaurants](https://steventchakpe.com/openclassrooms/img/avis_restaurants.png)
+
+
 
 
 ## Etape 1 : la carte des restaurants
